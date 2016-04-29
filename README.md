@@ -1,6 +1,6 @@
 # WebSphere Liberty
 
-Simple Java application run on WebSphere Liberty build with Docker.
+Simple Java application running in WebSphere build with Docker.
 
 ## Prerequisites
 
@@ -21,19 +21,31 @@ This will take a while for the first time since it downloads and installs Maven 
 Once the image is built, start it with:
 
 ```sh
-docker run -d -p 80:9080 filipecorrea/websphere-liberty
+docker run --name websphere-liberty -d -p 80:9080 filipecorrea/websphere-liberty
 ```
 
-And test it with:
-
-```sh
-curl http://localhost/Sample/SimpleServlet
-```
-
-In Mac OS, you should first get the Docker machine IP. Test it with:
+WebSphere takes about a minute to start. Once it's complete, you can test the application running:
 
 ```sh
 open "http://$(docker-machine ip default)/Sample/SimpleServlet"
 ```
 
+## Optional
+
+[fswatch] is a file change monitor that receives notifications when the contents of specified files or directories are modified.
+
+If you want to keep your Docker container updated everytime you change project's source code, just install it using [Homebrew]:
+
+```sh
+brew install fswatch
+```
+
+And point it to your project source folder:
+
+```sh
+fswatch -o ~/project-path/src | xargs -n1 ~/project-path/build.sh
+```
+
 [Docker]: <http://docker.com>
+[fswatch]: <https://github.com/emcrisostomo/fswatch>
+[Homebrew]: <http://brew.sh>
